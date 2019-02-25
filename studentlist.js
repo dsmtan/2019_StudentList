@@ -14,7 +14,7 @@ let filteredArray;
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  fetch("http://petlatkea.dk/2019/students1991.json")
+  fetch("https://petlatkea.dk/2019/hogwarts/students.json")
     .then(res => res.json())
     .then(buildList);
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
