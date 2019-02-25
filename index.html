@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student List 2</title>
-    <link rel="stylesheet" href="studentlist.css" type="text/css">
-</head>
-<body>
-  <h1>Students 1991</h1>
-    
-  <script src="studentlist.js"></script>
-</body>
+    <link rel="stylesheet" href="studentlist.css" type="text/css" />
+  </head>
+  <body>
+    <header>
+      <img id="hwcrest" src="images/Hogwarts_Crest_1.png" />
+      <h1>Hogwarts Students of 1991</h1>
+
+      <nav>
+        <a href="#" id="allfilter">All</a>
+        <!-- <a id="gryffindor">Gryffindor</a>
+        <a id="hufflepuff">Hufflepuff</a>
+        <a id="ravenclaw">Ravenclaw</a>
+        <a id="slytherin">Slytherin</a> -->
+      </nav>
+    </header>
+
+    <main id="container">
+      <!-- append template here -->
+    </main>
+
+    <template id="studentTemplate">
+      <article class="singleStudent">
+        <div id="firstColumn"><h2 id="firstname"></h2></div>
+        <div id="lastColumn"><h2 id="lastname"></h2></div>
+      </article>
+    </template>
+
+    <script src="studentlist.js"></script>
+  </body>
 </html>

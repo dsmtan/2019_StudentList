@@ -1,23 +1,80 @@
+@import url("https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-    background-color: aliceblue;
+  min-height: 100%;
+  margin: 0;
+  font-family: "Frank Ruhl Libre", serif;
 }
 
-.gryffindor {
-    background-color: #ce3a0a;
-    color: #fdb02e
+header {
+  text-align: center;
 }
 
-.hufflepuf {
-    background-color: #ffc02a;
-    color: #0b0000  
+img#hwcrest {
+  height: 150px;
+  margin: 1em;
 }
 
-.ravenclaw {
-    background-color: #395f9d;
-    color: #e9ba36  
+h1 {
+  margin-top: 0;
 }
 
-.slytherin {
-    background-color: #588c39;
-    color: #c0b1c6  
+nav a {
+  margin: 2em;
+  cursor: pointer;
+}
+
+main#container {
+  min-height: 100%;
+  margin-top: 4em;
+  color: black;
+  font-family: "Frank Ruhl Libre", serif;
+}
+
+article {
+  margin: 3em;
+  padding: 0 1em;
+  border: 1px solid black;
+  width: 30vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+article > h2 {
+  margin: 0.5em 0;
+  font-size: 1em;
+}
+
+article > h3 {
+  margin-top: 0;
+  font-size: 1.1em;
+}
+
+.gryffindorStyle {
+  background-color: #ce3a0a;
+  color: #fdb02e;
+}
+
+.hufflepufStyle {
+  background-color: #ffc02a;
+  color: #0b0000;
+}
+
+.ravenclawStyle {
+  background-color: #395f9d;
+  color: #e9ba36;
+}
+
+.slytherinStyle {
+  background-color: #588c39;
+  color: #c0b1c6;
+}
+
+.hide {
+  display: none;
 }
