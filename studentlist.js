@@ -8,6 +8,7 @@ const Student = {
   lastname: "--last-name--",
   house: "--house--",
   image: "--imgsrc--",
+  housecrest: "--housecrest--",
   fromJSON(jsonObject) {
     let fullName = jsonObject.fullname.trim();
     let indexOfFirst = fullName.indexOf(" ");
@@ -17,6 +18,7 @@ const Student = {
     this.image = `images/${this.lastname}_${this.firstname.charAt(
       0
     )}.png`.toLowerCase();
+    this.housecrest = `images/${jsonObject.house}.png`.toLowerCase();
   }
 };
 
@@ -105,7 +107,9 @@ function displayList(newArray) {
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
 
-    // console.log(student.image);
+    copy.querySelector("article").addEventListener("click", function() {
+      showDetails(student);
+    });
 
     main.appendChild(copy);
   });
@@ -114,20 +118,28 @@ function displayList(newArray) {
 }
 
 //modal stuff not done
-// function showDetails(gameinfo) {
-//   modal.querySelector("h3").textContent = gameinfo.title.rendered;
-//   modal.querySelector("img").src =
-//     gameinfo._embedded[
-//       "wp:featuredmedia"
-//     ][0].media_details.sizes.medium.source_url;
+let modal = document.querySelector("#modal");
 
-//   modal.classList.remove("hide");
-// }
+function showDetails(student) {
+  modal.querySelector("h2").textContent = `${student.firstname} ${
+    student.lastname
+  }`;
+  modal.querySelector("p").textContent = "blablablalbalbla";
+  // modal.querySelector("#studentImage").src = student.image;
 
-// modal.addEventListener("click", () => modal.classList.add("hide"));
-// modal
-//   .querySelector("#btnclose")
-//   .addEventListener("click", () => modal.classList.add("hide"));
+  modal.querySelector("#houseCrest").src = student.housecrest;
+  modal.classList.add(`${student.house}style`.toLowerCase());
+
+  modal.classList.remove("hide");
+}
+
+modal.addEventListener("click", function() {
+  modal.className = "modal hide";
+});
+
+modal.querySelector("#btnclose").addEventListener("click", function() {
+  modal.className = "modal hide";
+});
 
 // TODO: Create scaffolding functions for the rest!
 

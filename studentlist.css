@@ -43,6 +43,7 @@ article {
   width: 350px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  cursor: pointer;
 }
 
 article > h2 {
@@ -55,22 +56,22 @@ article > h3 {
   font-size: 1.1em;
 }
 
-.gryffindorStyle {
+.gryffindorstyle {
   background-color: #ce3a0a;
   color: #fdb02e;
 }
 
-.hufflepufStyle {
+.hufflepuffstyle {
   background-color: #ffc02a;
   color: #0b0000;
 }
 
-.ravenclawStyle {
+.ravenclawstyle {
   background-color: #395f9d;
   color: #e9ba36;
 }
 
-.slytherinStyle {
+.slytherinstyle {
   background-color: #588c39;
   color: #c0b1c6;
 }
@@ -84,18 +85,19 @@ article > h3 {
 .modal {
   position: fixed;
   z-index: 3000;
-  max-width: 400px;
-  min-width: 200px;
+  width: 600px;
   margin: 0 auto;
-  background-color: lightsteelblue;
   top: 25%;
   left: 25%;
   right: 25%;
   padding-right: 20px;
 }
 
+.modal img {
+  max-height: 180px;
+}
+
 .modal-name {
-  font-family: "Roboto", sans-serif;
   font-weight: 700;
   color: #06052a;
   padding-left: 1em;
