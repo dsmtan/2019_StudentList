@@ -66,6 +66,7 @@ function displayList(newArray) {
     let firstName = fullName.substring(0, indexOfFirst);
     let lastName = fullName.substring(fullName.lastIndexOf(" ") + 1);
 
+    //fill template + append
     const copy = template.cloneNode(true);
     copy.querySelector("#firstname").textContent = firstName;
     copy.querySelector("#lastname").textContent = lastName;
@@ -74,19 +75,18 @@ function displayList(newArray) {
     parent.appendChild(copy);
   });
 
+  // hiding irrelevant sections - still need to fix
+
   let eachSection = document.querySelectorAll("section");
   if (newArray == studentArray) {
     eachSection.forEach(section => {
       section.classList.remove("hide");
-      console.log("it works");
     });
   } else {
     eachSection.forEach(section => {
       section.classList.add("hide");
       if (section.id == studentHouse) {
         section.classList.remove("hide");
-      } else if (section.id == "allSection") {
-        allSection.classList.add("hide");
       } else {
         section.classList.add("hide");
       }
@@ -95,18 +95,6 @@ function displayList(newArray) {
 
   console.log(newArray);
 }
-
-// function showRightSection() {
-//   eachSection.forEach(section => {
-//     if (section.id == studentHouse) {
-//       section.classList.remove("hide");
-//     } else if (section.id == "allSection") {
-//       allSection.classList.add("hide");
-//     } else {
-//       section.classList.add("hide");
-//     }
-//   });
-// }
 
 // TODO: Create scaffolding functions for the rest!
 
