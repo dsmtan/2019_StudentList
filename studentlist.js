@@ -1,9 +1,25 @@
 "use strict";
 let JSONdata;
+let studentArray = [];
+let filteredArray;
+
+const Student = {
+  firstname: "--first-name--",
+  lastname: "--last-name--",
+  house: "--house--",
+  image: "--imgsrc--",
+  fromJSON(jsonObject) {
+    let fullName = jsonObject.fullname.trim();
+    let indexOfFirst = fullName.indexOf(" ");
+    this.firstname = fullName.substring(0, indexOfFirst);
+    this.lastname = fullName.substring(fullName.lastIndexOf(" ") + 1);
+    this.house = jsonObject.house;
+    // this.image = ;
+  }
+};
 
 const template = document.querySelector("#studentTemplate").content;
 const main = document.querySelector("main");
-const nav = document.querySelector("nav");
 
 const allBtn = document.querySelector("#allfilter");
 const gryfBtn = document.querySelector("#gryffindor");
@@ -11,8 +27,6 @@ const huffBtn = document.querySelector("#hufflepuff");
 const raveBtn = document.querySelector("#ravenclaw");
 const slytBtn = document.querySelector("#slytherin");
 
-let studentArray = [];
-let houseArray = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
 let studentHouse;
 
 window.addEventListener("DOMContentLoaded", init);
@@ -43,36 +57,47 @@ function loadJSON() {
     .then(res => res.json())
     .then(myJSON => {
       JSONdata = myJSON;
-      console.log(JSONdata);
+      prepareObjects();
     });
+}
+
+function prepareObjects() {
+  JSONdata.forEach(jsonObject => {
+    //create new object
+    const student = Object.create(Student);
+    student.fromJSON(jsonObject);
+
+    //store in global array
+    studentArray.push(student);
+  });
+  console.log(studentArray);
 }
 
 //create a filtered array for clicked house
 function filterList(query) {
-  let filteredArray = JSONdata.filter(function(student) {
+  filteredArray = studentArray.filter(function(student) {
     return student.house.indexOf(query) > -1;
   });
-  displayList(filteredArray);
+  sortList(filteredArray);
 }
 
-//display students from selected house
+function sortList(filteredArray) {
+  //sorting code
+
+  let sortedArray = filteredArray;
+  displayList(sortedArray);
+}
+
+//display students
 function displayList(newArray) {
   //clear main
   main.innerHTML = "";
 
   newArray.forEach(student => {
-    let fullName = student.fullname.trim();
-    studentHouse = student.house;
-
-    //split first and last names in 2 columns
-    let indexOfFirst = fullName.indexOf(" ");
-    let firstName = fullName.substring(0, indexOfFirst);
-    let lastName = fullName.substring(fullName.lastIndexOf(" ") + 1);
-
     //fill template + append
     const copy = template.cloneNode(true);
-    copy.querySelector("#firstname").textContent = firstName;
-    copy.querySelector("#lastname").textContent = lastName;
+    copy.querySelector("#firstname").textContent = student.firstname;
+    copy.querySelector("#lastname").textContent = student.lastname;
 
     main.appendChild(copy);
   });
