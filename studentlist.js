@@ -1,11 +1,15 @@
 "use strict";
+let JSONdata;
 
 const template = document.querySelector("#studentTemplate").content;
 const main = document.querySelector("main");
 const nav = document.querySelector("nav");
 
 const allBtn = document.querySelector("#allfilter");
-let allSection;
+const gryfBtn = document.querySelector("#gryffindor");
+const huffBtn = document.querySelector("#hufflepuff");
+const raveBtn = document.querySelector("#ravenclaw");
+const slytBtn = document.querySelector("#slytherin");
 
 let studentArray = [];
 let houseArray = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
@@ -14,42 +18,38 @@ let studentHouse;
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
+  loadJSON();
+
+  allBtn.addEventListener("click", function() {
+    filterList("");
+  });
+
+  gryfBtn.addEventListener("click", function() {
+    filterList("Gryffindor");
+  });
+  huffBtn.addEventListener("click", function() {
+    filterList("Hufflepuff");
+  });
+  raveBtn.addEventListener("click", function() {
+    filterList("Ravenclaw");
+  });
+  slytBtn.addEventListener("click", function() {
+    filterList("Slytherin");
+  });
+}
+
+function loadJSON() {
   fetch("https://petlatkea.dk/2019/hogwarts/students.json")
     .then(res => res.json())
-    .then(buildList);
-}
-
-function buildList(jsonList) {
-  //create global array from fetched json
-  jsonList.forEach(student => {
-    studentArray.push(student);
-  });
-
-  buildFilters();
-  displayList(studentArray);
-}
-
-function buildFilters() {
-  //create filterlinks for every house + add eventlistener
-  houseArray.forEach(house => {
-    const newSection = document.createElement("section");
-    const newLink = document.createElement("a");
-
-    newSection.id = house;
-    newLink.href = "#";
-    newLink.textContent = house;
-    newLink.addEventListener("click", () => filterList(house));
-
-    nav.appendChild(newLink);
-    main.appendChild(newSection);
-
-    // console.log(newSection.id);
-  });
+    .then(myJSON => {
+      JSONdata = myJSON;
+      console.log(JSONdata);
+    });
 }
 
 //create a filtered array for clicked house
 function filterList(query) {
-  let filteredArray = studentArray.filter(function(student) {
+  let filteredArray = JSONdata.filter(function(student) {
     return student.house.indexOf(query) > -1;
   });
   displayList(filteredArray);
@@ -57,6 +57,9 @@ function filterList(query) {
 
 //display students from selected house
 function displayList(newArray) {
+  //clear main
+  main.innerHTML = "";
+
   newArray.forEach(student => {
     let fullName = student.fullname.trim();
     studentHouse = student.house;
@@ -71,30 +74,28 @@ function displayList(newArray) {
     copy.querySelector("#firstname").textContent = firstName;
     copy.querySelector("#lastname").textContent = lastName;
 
-    const parent = document.querySelector("#" + student.house);
-    parent.appendChild(copy);
+    main.appendChild(copy);
   });
 
-  // hiding irrelevant sections - still need to fix
-
-  let eachSection = document.querySelectorAll("section");
-  if (newArray == studentArray) {
-    eachSection.forEach(section => {
-      section.classList.remove("hide");
-    });
-  } else {
-    eachSection.forEach(section => {
-      section.classList.add("hide");
-      if (section.id == studentHouse) {
-        section.classList.remove("hide");
-      } else {
-        section.classList.add("hide");
-      }
-    });
-  }
-
   console.log(newArray);
+  // hiding irrelevant sections - still need to fix
 }
+
+//modal stuff not done
+// function showDetails(gameinfo) {
+//   modal.querySelector("h3").textContent = gameinfo.title.rendered;
+//   modal.querySelector("img").src =
+//     gameinfo._embedded[
+//       "wp:featuredmedia"
+//     ][0].media_details.sizes.medium.source_url;
+
+//   modal.classList.remove("hide");
+// }
+
+// modal.addEventListener("click", () => modal.classList.add("hide"));
+// modal
+//   .querySelector("#btnclose")
+//   .addEventListener("click", () => modal.classList.add("hide"));
 
 // TODO: Create scaffolding functions for the rest!
 

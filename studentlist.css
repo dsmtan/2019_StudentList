@@ -78,3 +78,41 @@ article > h3 {
 .hide {
   display: none;
 }
+
+/*MODAL*/
+
+.modal {
+  position: fixed;
+  z-index: 3000;
+  max-width: 400px;
+  min-width: 200px;
+  margin: 0 auto;
+  background-color: lightsteelblue;
+  top: 25%;
+  left: 25%;
+  right: 25%;
+  padding-right: 20px;
+}
+
+.modal-name {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #06052a;
+  padding-left: 1em;
+}
+
+.long-description {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  color: #06052a;
+  padding: 0 1.25em;
+}
+
+.closebtn {
+  color: #06052a;
+  cursor: pointer;
+  text-decoration: none;
+  float: right;
+  overflow: auto;
+  font-size: 2em;
+}
