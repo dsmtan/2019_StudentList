@@ -40,7 +40,7 @@ article {
   margin: 3em;
   padding: 0 1em;
   border: 1px solid black;
-  width: 30vw;
+  width: 350px;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }

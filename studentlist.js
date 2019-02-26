@@ -59,6 +59,7 @@ function loadJSON() {
     .then(res => res.json())
     .then(myJSON => {
       JSONdata = myJSON;
+
       prepareObjects();
     });
 }
@@ -72,7 +73,8 @@ function prepareObjects() {
     //store in global array
     studentArray.push(student);
   });
-  console.log(studentArray);
+
+  filterList("");
 }
 
 //create a filtered array for clicked house
@@ -83,11 +85,13 @@ function filterList(query) {
   sortList(filteredArray);
 }
 
-function sortList(filteredArray) {
+function sortList(filteredStudents) {
   //sorting code
 
-  let sortedArray = filteredArray;
-  displayList(sortedArray);
+  filteredStudents.sort(); //why are you not working???
+  console.table(filteredStudents);
+
+  displayList(filteredStudents);
 }
 
 //display students
@@ -101,13 +105,12 @@ function displayList(newArray) {
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
 
-    console.log(student.image);
+    // console.log(student.image);
 
     main.appendChild(copy);
   });
 
-  console.log(newArray);
-  // hiding irrelevant sections - still need to fix
+  // console.log(newArray);
 }
 
 //modal stuff not done
