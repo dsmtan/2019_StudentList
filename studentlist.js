@@ -36,8 +36,6 @@ const slytBtn = document.querySelector("#slytherin");
 
 let selectSort = document.querySelector("#selectSort");
 
-let studentHouse;
-
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -85,7 +83,7 @@ function prepareObjects() {
     studentArray.push(student);
   });
 
-  filterList("");
+  filterList(""); // default unfiltered
 }
 
 //create a filtered array for clicked house
@@ -97,7 +95,7 @@ function filterList(query) {
 }
 
 function sortList(filteredStudents) {
-  //sorting code
+  //run function by selected sorting option
   if (selectSort.value === "firstSort") {
     filteredStudents.sort(sortByFirst);
   } else if (selectSort.value === "lastSort") {
@@ -139,7 +137,7 @@ function sortByHouse(a, b) {
   }
 }
 
-//display students
+//display students in list
 function displayList(newArray) {
   //clear main
   main.innerHTML = "";
@@ -160,8 +158,6 @@ function displayList(newArray) {
 
     main.appendChild(copy);
   });
-
-  // console.log(newArray);
 }
 
 //show modal when student clicks
@@ -172,13 +168,13 @@ function showDetails(student) {
   modal.querySelector("h4").textContent = `House of ${student.house}`;
 
   studentImage = modal.querySelector("#studentImage");
-
   if (student.house == "Gryffindor") {
     studentImage.classList.remove("hide");
     studentImage.src = student.image;
   }
 
   modal.querySelector("#houseCrest").src = student.housecrest;
+  // add relative house styling
   modal.classList.add(`${student.house}style`.toLowerCase());
 
   modal.classList.remove("hide");
