@@ -113,7 +113,7 @@ function sortList(filteredStudents) {
   displayList(filteredStudents);
 }
 
-// different sorting functions
+// different sorting comparison functions
 
 function sortByFirst(a, b) {
   if (a.firstname < b.firstname) {
@@ -150,6 +150,9 @@ function displayList(newArray) {
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
     copy.querySelector("#housename").textContent = student.house;
+    copy.querySelector("article").id = `${student.firstname.charAt(0)}-${
+      student.lastname
+    }`.toLowerCase();
 
     copy.querySelector("article").addEventListener("click", function() {
       showDetails(student);
