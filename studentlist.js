@@ -61,7 +61,7 @@ function init() {
   });
 
   selectSort.addEventListener("input", function() {
-    filterList("");
+    sortList(filteredArray);
   });
 }
 
