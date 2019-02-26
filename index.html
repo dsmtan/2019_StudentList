@@ -18,6 +18,13 @@
         <a href="#" id="ravenclaw">Ravenclaw</a>
         <a href="#" id="slytherin">Slytherin</a>
       </nav>
+
+      <label for="selectSort"><h4>Sort by:</h4></label>
+      <select id="selectSort">
+        <option value="firstSort">First Name</option>
+        <option value="lastSort">Last Name</option>
+        <option value="houseSort">House</option>
+      </select>
     </header>
 
     <main id="container">
@@ -26,17 +33,30 @@
 
     <div id="modal" class="modal hide">
       <aside id="modal-content">
-        <span id="btnclose" class="closebtn">&times;</span>
-        <img id="studentImage" />
+        <div id="btnclose" class="closebtn">&times;</div>
+        <img id="studentImage" class="hide" />
         <h2 class="modal-name">student-name</h2>
-        <p class="long-description">long description</p>
+        <h4 class="house-name">house-name</h4>
+        <p class="long-description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. At lectus
+          urna duis convallis. Urna id volutpat lacus laoreet non curabitur.
+          Accumsan sit amet nulla facilisi morbi tempus iaculis urna. Aliquam id
+          diam maecenas ultricies. Vestibulum lectus mauris ultrices eros in
+          cursus turpis massa tincidunt. Amet consectetur adipiscing elit duis
+          tristique sollicitudin nibh.
+        </p>
+
         <img id="houseCrest" />
       </aside>
     </div>
 
     <template id="studentTemplate">
       <article class="singleStudent">
-        <div id="firstColumn"><h2 id="firstname"></h2></div>
+        <div id="firstColumn">
+          <h2 id="firstname"></h2>
+          <h4 id="housename"></h4>
+        </div>
         <div id="lastColumn"><h2 id="lastname"></h2></div>
       </article>
     </template>
