@@ -14,7 +14,9 @@ const Student = {
     this.firstname = fullName.substring(0, indexOfFirst);
     this.lastname = fullName.substring(fullName.lastIndexOf(" ") + 1);
     this.house = jsonObject.house;
-    // this.image = ;
+    this.image = `images/${this.lastname}_${this.firstname.charAt(
+      0
+    )}.png`.toLowerCase();
   }
 };
 
@@ -98,6 +100,8 @@ function displayList(newArray) {
     const copy = template.cloneNode(true);
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
+
+    console.log(student.image);
 
     main.appendChild(copy);
   });
