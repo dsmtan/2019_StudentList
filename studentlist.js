@@ -5,11 +5,11 @@ const main = document.querySelector("main");
 const nav = document.querySelector("nav");
 
 const allBtn = document.querySelector("#allfilter");
+let allSection;
 
 let studentArray = [];
 let houseArray = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
 let studentHouse;
-let filteredArray;
 
 window.addEventListener("DOMContentLoaded", init);
 
@@ -17,22 +17,20 @@ function init() {
   fetch("https://petlatkea.dk/2019/hogwarts/students.json")
     .then(res => res.json())
     .then(buildList);
-  // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
 }
 
 function buildList(jsonList) {
+  //create global array from fetched json
   jsonList.forEach(student => {
     studentArray.push(student);
   });
 
-  console.log(studentArray);
-
   buildFilters();
+  displayList(studentArray);
 }
 
-allBtn.addEventListener("click", () => displayList(studentArray));
-
 function buildFilters() {
+  //create filterlinks for every house + add eventlistener
   houseArray.forEach(house => {
     const newSection = document.createElement("section");
     const newLink = document.createElement("a");
@@ -49,47 +47,66 @@ function buildFilters() {
   });
 }
 
+//create a filtered array for clicked house
 function filterList(query) {
-  let newArray = studentArray.filter(function(student) {
+  let filteredArray = studentArray.filter(function(student) {
     return student.house.indexOf(query) > -1;
   });
-
-  console.log(newArray);
-
-  displayList(newArray);
+  displayList(filteredArray);
 }
 
+//display students from selected house
 function displayList(newArray) {
   newArray.forEach(student => {
     let fullName = student.fullname.trim();
     studentHouse = student.house;
 
+    //split first and last names in 2 columns
     let indexOfFirst = fullName.indexOf(" ");
     let firstName = fullName.substring(0, indexOfFirst);
     let lastName = fullName.substring(fullName.lastIndexOf(" ") + 1);
 
-    console.log(studentHouse);
-
-    const parent = document.querySelector("#" + student.house);
     const copy = template.cloneNode(true);
     copy.querySelector("#firstname").textContent = firstName;
     copy.querySelector("#lastname").textContent = lastName;
+
+    const parent = document.querySelector("#" + student.house);
     parent.appendChild(copy);
   });
 
-  let section = document.querySelectorAll("section");
-
-  if (newArray !== studentArray) {
-    section.forEach(section => {
+  let eachSection = document.querySelectorAll("section");
+  if (newArray == studentArray) {
+    eachSection.forEach(section => {
+      section.classList.remove("hide");
+      console.log("it works");
+    });
+  } else {
+    eachSection.forEach(section => {
+      section.classList.add("hide");
       if (section.id == studentHouse) {
         section.classList.remove("hide");
+      } else if (section.id == "allSection") {
+        allSection.classList.add("hide");
       } else {
         section.classList.add("hide");
       }
     });
   }
-  console.log("displayList");
+
+  console.log(newArray);
 }
+
+// function showRightSection() {
+//   eachSection.forEach(section => {
+//     if (section.id == studentHouse) {
+//       section.classList.remove("hide");
+//     } else if (section.id == "allSection") {
+//       allSection.classList.add("hide");
+//     } else {
+//       section.classList.add("hide");
+//     }
+//   });
+// }
 
 // TODO: Create scaffolding functions for the rest!
 
