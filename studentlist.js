@@ -164,29 +164,38 @@ function displayList(newArray) {
 let studentImage;
 
 function showDetails(student) {
+  document.querySelector("#overlay").classList.remove("hide");
   modal.querySelector("h2").textContent = student.fullname;
   modal.querySelector("h4").textContent = `House of ${student.house}`;
 
   studentImage = modal.querySelector("#studentImage");
-  if (student.house == "Gryffindor") {
-    studentImage.classList.remove("hide");
+
+  if (student.lastname == "Finch-Fletchly") {
+    studentImage.src = "images/fletchley_j.png";
+  } else if (student.firstname == "Padma") {
+    studentImage.src = "images/patil_padma.png";
+  } else {
     studentImage.src = student.image;
+    studentImage.onerror = function() {
+      studentImage.classList.add("hide");
+    };
   }
 
   modal.querySelector("#houseCrest").src = student.housecrest;
   // add relative house styling
   modal.classList.add(`${student.house}style`.toLowerCase());
-
   modal.classList.remove("hide");
 }
 
 //hide modal and reset class when closed
 modal.addEventListener("click", function() {
   modal.className = "modal hide";
-  studentImage.classList.add("hide");
+  studentImage.classList.remove("hide");
+  document.querySelector("#overlay").classList.add("hide");
 });
 
 modal.querySelector("#btnclose").addEventListener("click", function() {
   modal.className = "modal hide";
-  studentImage.classList.add("hide");
+  studentImage.classList.remove("hide");
+  document.querySelector("#overlay").classList.add("hide");
 });
