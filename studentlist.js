@@ -98,10 +98,16 @@ function sortList(filteredStudents) {
   //run function by selected sorting option
   if (selectSort.value === "firstSort") {
     filteredStudents.sort(sortByFirst);
+  } else if (selectSort.value === "firstSortZ") {
+    filteredStudents.sort(sortByFirstZ);
   } else if (selectSort.value === "lastSort") {
     filteredStudents.sort(sortByLast);
+  } else if (selectSort.value === "lastSortZ") {
+    filteredStudents.sort(sortByLastZ);
   } else if (selectSort.value === "houseSort") {
     filteredStudents.sort(sortByHouse);
+  } else if (selectSort.value === "houseSortZ") {
+    filteredStudents.sort(sortByHouseZ);
   } else {
     filteredStudents.sort(sortByFirst);
   }
@@ -121,6 +127,14 @@ function sortByFirst(a, b) {
   }
 }
 
+function sortByFirstZ(a, b) {
+  if (a.firstname > b.firstname) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
 function sortByLast(a, b) {
   if (a.lastname < b.lastname) {
     return -1;
@@ -129,8 +143,24 @@ function sortByLast(a, b) {
   }
 }
 
+function sortByLastZ(a, b) {
+  if (a.lastname > b.lastname) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
 function sortByHouse(a, b) {
   if (a.house < b.house) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+function sortByHouseZ(a, b) {
+  if (a.house > b.house) {
     return -1;
   } else {
     return 1;
@@ -199,3 +229,5 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   studentImage.classList.remove("hide");
   document.querySelector("#overlay").classList.add("hide");
 });
+
+//expel code if
