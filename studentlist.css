@@ -11,9 +11,10 @@ body {
   font-family: "Frank Ruhl Libre", serif;
 }
 
-/* body {
-  filter: blur(2px);
-} */
+body {
+  /* background-color: #121134; */
+  background-image: linear-gradient(#121134 350px, #12113449);
+}
 
 #overlay {
   position: fixed;
@@ -39,39 +40,80 @@ img#hwcrest {
 
 h1 {
   margin-top: 0;
+  color: #d5a208;
 }
 
-nav a {
-  margin: 2em;
+nav button {
+  margin: 1em;
   cursor: pointer;
   text-decoration: none;
-  color: black;
+  color: #d5a208;
   font-size: 1.2em;
+  padding: 5px 20px;
+  font-family: "Frank Ruhl Libre", serif;
+  border: none;
+  font-weight: 600;
+  background-color: transparent;
+  border-radius: 3px;
 }
 
-nav > a:hover {
-  color: #ab133c;
+nav > button:hover {
+  color: rgb(34, 26, 26);
+  background-color: #d5a208;
 }
 
 label {
   display: inline-block;
 }
 
-main#container {
+label > h4 {
+  font-size: 1.1em;
+  color: white;
+  font-weight: 500;
+  margin: 0.5em;
+}
+
+select {
+  border-radius: 5px;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1em;
+}
+
+#container {
+  margin-top: 3em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 100%;
-  margin-top: 4em;
-  color: black;
+  text-align: center;
+}
+
+main {
+  color: #121134;
   font-family: "Frank Ruhl Libre", serif;
 }
 
-article {
+.draggable {
+  position: absolute;
+  cursor: pointer;
+}
+
+.dropzone {
+  background-image: linear-gradient(#d12828, #d1282841);
   margin: 3em;
   padding: 0 1em;
-  border: 1px solid black;
-  width: 350px;
+  width: 65%;
+  color: #121134;
+}
+
+article {
+  margin: 3em auto;
+  padding: 0 1em;
+  width: 320px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   cursor: pointer;
+  text-align: left;
+  background-color: white;
 }
 
 article > div > h2 {
@@ -80,7 +122,7 @@ article > div > h2 {
 }
 
 article > div > h4 {
-  margin-top: 0;
+  margin: 0 0 1em 0;
 }
 
 .gryffindorstyle {

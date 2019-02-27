@@ -175,14 +175,18 @@ function displayList(newArray) {
   newArray.forEach(student => {
     //fill template + append
     const copy = template.cloneNode(true);
+    let article = copy.querySelector("article");
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
     copy.querySelector("#housename").textContent = student.house;
-    copy.querySelector("article").id = `${student.firstname.charAt(0)}-${
+    article.id = `${student.firstname.charAt(0)}-${
       student.lastname
     }`.toLowerCase();
 
-    copy.querySelector("article").addEventListener("click", function() {
+    // article.classList.add("draggable");
+    article.draggable = "true";
+
+    article.addEventListener("click", function() {
       showDetails(student);
     });
 
@@ -230,4 +234,60 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   document.querySelector("#overlay").classList.add("hide");
 });
 
-//expel code if
+//expel student drag & drop
+
+let dragged;
+let counter = 0;
+
+/* events fired on the draggable target */
+document.addEventListener("drag", function(event) {});
+
+document.addEventListener("dragstart", function(event) {
+  // store a ref. on the dragged elem
+  dragged = event.target;
+  // make it half transparent
+  dragged.style.opacity = 0.5;
+});
+
+document.addEventListener("dragend", function(event) {
+  // reset the transparency
+  event.target.style.opacity = "";
+});
+
+/* events fired on the drop targets */
+document.addEventListener("dragover", function(event) {
+  // prevent default to allow drop
+  event.preventDefault();
+});
+
+document.addEventListener("dragenter", function(event) {
+  // highlight potential drop target when the draggable element enters it
+  if (event.target.className == "dropzone") {
+    event.target.style.background = "#ec3434";
+  }
+});
+
+document.addEventListener("dragleave", function(event) {
+  // reset background of potential drop target when the draggable element leaves it
+  if (event.target.className == "dropzone") {
+    event.target.style.background = "";
+  }
+});
+
+document.addEventListener("drop", function(event) {
+  // prevent default action (open as link for some elements)
+  event.preventDefault();
+
+  // move dragged elem to the selected drop target
+  if (event.target.className == "dropzone") {
+    event.target.style.background = "";
+    counter++;
+    document.querySelector("#expelled span").textContent = counter;
+
+    dragged.parentNode.removeChild(dragged);
+    event.target.appendChild(dragged);
+
+    dragged.style.left = event.target.style.left;
+    dragged.style.top = event.target.style.top;
+  }
+});

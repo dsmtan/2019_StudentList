@@ -12,11 +12,11 @@
       <h1>Hogwarts Students of 1991</h1>
 
       <nav>
-        <a href="#" id="allfilter">All</a>
-        <a href="#" id="gryffindor">Gryffindor</a>
-        <a href="#" id="hufflepuff">Hufflepuff</a>
-        <a href="#" id="ravenclaw">Ravenclaw</a>
-        <a href="#" id="slytherin">Slytherin</a>
+        <button id="allfilter">All</button>
+        <button id="gryffindor">Gryffindor</button>
+        <button id="hufflepuff">Hufflepuff</button>
+        <button id="ravenclaw">Ravenclaw</button>
+        <button id="slytherin">Slytherin</button>
       </nav>
 
       <label for="selectSort"><h4>Sort by:</h4></label>
@@ -30,9 +30,15 @@
       </select>
     </header>
 
-    <main id="container">
-      <!-- append template here -->
-    </main>
+    <div id="container">
+      <main>
+        <!-- append template here -->
+      </main>
+
+      <div id="expelled" class="dropzone">
+        <h2>Expelled Students: <span>0</span></h2>
+      </div>
+    </div>
 
     <div id="overlay" class="hide"></div>
 
@@ -40,8 +46,8 @@
       <aside id="modal-content">
         <div id="btnclose" class="closebtn">&times;</div>
         <img id="studentImage" class="" />
-        <h2 class="modal-name">student-name</h2>
-        <h4 class="house-name">house-name</h4>
+        <h2 class="modal-name">studentname</h2>
+        <h4 class="house-name">housename</h4>
         <p class="long-description">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. At lectus
