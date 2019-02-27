@@ -24,7 +24,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: rgb(34, 26, 26);
+  background: black;
   opacity: 0.5;
   z-index: 1;
 }
@@ -88,6 +88,7 @@ select {
 }
 
 main {
+  margin-top: 5px;
   color: #121134;
   font-family: "Frank Ruhl Libre", serif;
 }
@@ -98,22 +99,24 @@ main {
 }
 
 .dropzone {
-  background-image: linear-gradient(#d12828, #d1282841);
-  margin: 3em;
+  background-image: linear-gradient(#be2323, #d1282841);
+  margin: 1.5em;
   padding: 0 1em;
   width: 65%;
   color: #121134;
+  border-radius: 3px;
 }
 
 article {
-  margin: 3em auto;
+  margin: 1.5em auto;
   padding: 0 1em;
   width: 320px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   cursor: pointer;
   text-align: left;
-  background-color: white;
+  background-color: #ddddf1;
+  border-radius: 3px;
 }
 
 article > div > h2 {
@@ -173,10 +176,14 @@ article > div > h4 {
   margin: 10px auto;
 }
 
+.modal {
+  border-radius: 3px;
+}
+
 .modal-name {
   font-weight: 700;
-  margin: 0;
-  padding: 10px 20px 0 20px;
+  margin: 5px 0 0 0;
+  padding: 15px 20px 0 20px;
 }
 
 .house-name {
@@ -196,6 +203,7 @@ article > div > h4 {
   text-decoration: none;
   float: right;
   overflow: auto;
-  font-size: 40px;
-  margin: 0 15px;
+  font-size: 25px;
+  margin: 0 10px;
+  text-justify: top;
 }
