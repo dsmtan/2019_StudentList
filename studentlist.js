@@ -110,8 +110,6 @@ function addBloodStatus(student) {
     student.bloodstatus = "Muggle";
   }
 
-  console.table(studentArray);
-
   filterList(""); // default unfiltered
 }
 
@@ -209,6 +207,7 @@ let currentArray;
 
 function displayList(newArray) {
   currentArray = newArray;
+  console.table(currentArray);
 
   //show total students in current list
   document.querySelector("#totalStudents>span").textContent =
@@ -242,7 +241,12 @@ let studentImage;
 function showDetails(student) {
   document.querySelector("#overlay").classList.remove("hide");
   modal.querySelector("h2").textContent = student.fullname;
-  modal.querySelector("h4").textContent = `House of ${student.house}`;
+  modal.querySelector("h4.house-name").textContent = `House of ${
+    student.house
+  }`;
+  modal.querySelector("h4.bloodstatus").textContent = `Blood Status: ${
+    student.bloodstatus
+  }`;
 
   studentImage = modal.querySelector("#studentImage");
 
@@ -262,13 +266,6 @@ function showDetails(student) {
   modal.classList.add(`${student.house}style`.toLowerCase());
   modal.classList.remove("hide");
 }
-
-//hide modal and reset class when closed
-modal.addEventListener("click", function() {
-  modal.className = "modal hide";
-  studentImage.classList.remove("hide");
-  document.querySelector("#overlay").classList.add("hide");
-});
 
 modal.querySelector("#btnclose").addEventListener("click", function() {
   modal.className = "modal hide";
