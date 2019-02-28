@@ -112,7 +112,7 @@ function sortList(filteredStudents) {
     filteredStudents.sort(sortByFirst);
   }
 
-  console.table(filteredStudents);
+  // console.table(filteredStudents);
 
   displayList(filteredStudents);
 }
@@ -167,8 +167,16 @@ function sortByHouseZ(a, b) {
   }
 }
 
+let currentArray;
+
 //display students in list
 function displayList(newArray) {
+  currentArray = newArray;
+
+  //show total students in current list
+  document.querySelector("#totalStudents>span").textContent =
+    currentArray.length;
+
   //clear main
   main.innerHTML = "";
 
@@ -179,11 +187,8 @@ function displayList(newArray) {
     copy.querySelector("#firstname").textContent = student.firstname;
     copy.querySelector("#lastname").textContent = student.lastname;
     copy.querySelector("#housename").textContent = student.house;
-    article.id = `${student.firstname.charAt(0)}-${
-      student.lastname
-    }`.toLowerCase();
+    article.id = `${student.firstname}_${student.lastname}`;
 
-    // article.classList.add("draggable");
     article.draggable = "true";
 
     article.addEventListener("click", function() {
@@ -263,7 +268,7 @@ document.addEventListener("dragover", function(event) {
 document.addEventListener("dragenter", function(event) {
   // highlight potential drop target when the draggable element enters it
   if (event.target.className == "dropzone") {
-    event.target.style.background = "#ec3434";
+    event.target.style.background = "rgba(236, 52, 52, 0.5)";
   }
 });
 
@@ -278,16 +283,43 @@ document.addEventListener("drop", function(event) {
   // prevent default action (open as link for some elements)
   event.preventDefault();
 
-  // move dragged elem to the selected drop target
   if (event.target.className == "dropzone") {
     event.target.style.background = "";
     counter++;
     document.querySelector("#expelled span").textContent = counter;
 
     dragged.parentNode.removeChild(dragged);
-    event.target.appendChild(dragged);
-
     dragged.style.left = event.target.style.left;
     dragged.style.top = event.target.style.top;
+    addExpelled(dragged);
   }
 });
+
+let expelledList = [];
+
+function addExpelled(student) {
+  // add dragged student to expelled list
+  let indexOfFirst = student.id.indexOf("_");
+  let exFirst = student.id.substring(0, indexOfFirst);
+  let exLast = student.id.substring(student.id.lastIndexOf("_") + 1);
+  let expelledStudent = `${exFirst} ${exLast}`;
+  expelledList.push(expelledStudent);
+
+  console.log(expelledList);
+
+  let toBeRemoved = findExpelled(exFirst);
+  removeExpelled(toBeRemoved);
+}
+
+function findExpelled(exfirstname) {
+  //find expelled student by first name
+  return currentArray.find(obj => obj.firstname === exfirstname);
+}
+
+function removeExpelled(firstName) {
+  //remove the expelled student from current displayed list
+  let position = currentArray.indexOf(firstName);
+  currentArray.splice(position, 1);
+  document.querySelector("#totalStudents>span").textContent =
+    currentArray.length;
+}

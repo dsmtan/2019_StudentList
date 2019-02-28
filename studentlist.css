@@ -12,8 +12,7 @@ body {
 }
 
 body {
-  /* background-color: #121134; */
-  background-image: linear-gradient(#121134 350px, #12113449);
+  background-image: linear-gradient(#121134 450px, #12113449);
 }
 
 #overlay {
@@ -34,7 +33,7 @@ header {
 }
 
 img#hwcrest {
-  height: 150px;
+  height: 140px;
   margin: 1em;
 }
 
@@ -44,11 +43,11 @@ h1 {
 }
 
 nav button {
-  margin: 1em;
+  margin: 0.7em;
   cursor: pointer;
   text-decoration: none;
   color: #d5a208;
-  font-size: 1.2em;
+  font-size: 1.3em;
   padding: 5px 20px;
   font-family: "Frank Ruhl Libre", serif;
   border: none;
@@ -62,21 +61,35 @@ nav > button:hover {
   background-color: #d5a208;
 }
 
+#studentinfo {
+  text-align: right;
+  margin-right: 3vw;
+}
+
+h4#totalStudents {
+  font-size: 1.1em;
+  color: #ddddf1;
+  font-weight: 500;
+  margin: 0.3em;
+}
+
 label {
   display: inline-block;
 }
 
 label > h4 {
   font-size: 1.1em;
-  color: white;
+  color: #ddddf1;
   font-weight: 500;
-  margin: 0.5em;
+  margin: 0.3em;
 }
 
 select {
   border-radius: 5px;
   font-family: "Frank Ruhl Libre", serif;
   font-size: 1em;
+  display: inline-block;
+  background-color: #ddddf1;
 }
 
 #container {
@@ -93,18 +106,27 @@ main {
   font-family: "Frank Ruhl Libre", serif;
 }
 
-.draggable {
-  position: absolute;
-  cursor: pointer;
+#expelled {
+  margin: 1.5em auto;
+  padding: 0 1em;
+  min-width: 65%;
+  height: 140px;
+  border-radius: 3px;
+  position: relative;
 }
 
-.dropzone {
-  background-image: linear-gradient(#be2323, #d1282841);
-  margin: 1.5em;
-  padding: 0 1em;
-  width: 65%;
+#expelBG {
+  position: absolute;
+  font-size: 1em;
+  background-image: linear-gradient(#be2323 50%, #d1282841);
   color: #121134;
   border-radius: 3px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  overflow: hidden;
 }
 
 article {

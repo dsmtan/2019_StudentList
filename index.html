@@ -19,15 +19,19 @@
         <button id="slytherin">Slytherin</button>
       </nav>
 
-      <label for="selectSort"><h4>Sort by:</h4></label>
-      <select id="selectSort">
-        <option value="firstSort">First Name A-Z</option>
-        <option value="firstSortZ">First Name Z-A</option>
-        <option value="lastSort">Last Name A-Z</option>
-        <option value="lastSortZ">Last Name Z-A</option>
-        <option value="houseSort">House A-Z</option>
-        <option value="houseSortZ">House Z-A</option>
-      </select>
+      <div id="studentinfo">
+        <label for="selectSort"><h4>Sort:</h4></label>
+        <select id="selectSort">
+          <option value="firstSort">First Name A-Z</option>
+          <option value="firstSortZ">First Name Z-A</option>
+          <option value="lastSort">Last Name A-Z</option>
+          <option value="lastSortZ">Last Name Z-A</option>
+          <option value="houseSort">House A-Z</option>
+          <option value="houseSortZ">House Z-A</option>
+        </select>
+
+        <h4 id="totalStudents">Total: <span></span></h4>
+      </div>
     </header>
 
     <div id="container">
@@ -36,7 +40,9 @@
       </main>
 
       <div id="expelled" class="dropzone">
-        <h2>Expelled Students: <span>0</span></h2>
+        <div id="expelBG">
+          <h2>Expelled Students: <span>0</span></h2>
+        </div>
       </div>
     </div>
 
