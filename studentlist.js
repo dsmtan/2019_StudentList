@@ -1,7 +1,20 @@
 "use strict";
-let JSONdata;
+let studentJSON;
+let familyJSON;
+
 let studentArray = [];
 let filteredArray;
+
+const template = document.querySelector("#studentTemplate").content;
+const main = document.querySelector("main");
+const modal = document.querySelector("#modal");
+
+const allBtn = document.querySelector("#allfilter");
+const gryfBtn = document.querySelector("#gryffindor");
+const huffBtn = document.querySelector("#hufflepuff");
+const raveBtn = document.querySelector("#ravenclaw");
+const slytBtn = document.querySelector("#slytherin");
+const selectSort = document.querySelector("#selectSort");
 
 const Student = {
   fullname: "--fullname--",
@@ -10,6 +23,8 @@ const Student = {
   house: "--house--",
   image: "--imgsrc--",
   housecrest: "--housecrest--",
+  bloodstatus: "--blood--",
+  inquisitorialsquad: "true or false",
   fromJSON(jsonObject) {
     let fullName = jsonObject.fullname.trim();
     let indexOfFirst = fullName.indexOf(" ");
@@ -24,23 +39,9 @@ const Student = {
   }
 };
 
-const template = document.querySelector("#studentTemplate").content;
-const main = document.querySelector("main");
-let modal = document.querySelector("#modal");
-
-const allBtn = document.querySelector("#allfilter");
-const gryfBtn = document.querySelector("#gryffindor");
-const huffBtn = document.querySelector("#hufflepuff");
-const raveBtn = document.querySelector("#ravenclaw");
-const slytBtn = document.querySelector("#slytherin");
-
-let selectSort = document.querySelector("#selectSort");
-
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  loadJSON();
-
   allBtn.addEventListener("click", function() {
     filterList("");
   });
@@ -61,32 +62,68 @@ function init() {
   selectSort.addEventListener("input", function() {
     sortList(filteredArray);
   });
+
+  loadJSON();
 }
 
 function loadJSON() {
   fetch("https://petlatkea.dk/2019/hogwarts/students.json")
     .then(res => res.json())
     .then(myJSON => {
-      JSONdata = myJSON;
-
+      studentJSON = myJSON;
       prepareObjects();
     });
 }
 
 function prepareObjects() {
-  JSONdata.forEach(jsonObject => {
+  studentJSON.forEach(jsonObject => {
     //create new object
     const student = Object.create(Student);
     student.fromJSON(jsonObject);
+    fetchFamilyJSON(student);
 
     //store in global array
     studentArray.push(student);
   });
+}
+
+function fetchFamilyJSON(student) {
+  fetch("http://petlatkea.dk/2019/hogwarts/families.json")
+    .then(res => res.json())
+    .then(famJSON => {
+      familyJSON = famJSON;
+      addBloodStatus(student);
+    });
+}
+
+// add bloodstatus to studentobject
+
+function addBloodStatus(student) {
+  let halfBlooded = findHalfBlood(student.lastname);
+  let pureBlooded = findPureBlood(student.lastname);
+
+  if (halfBlooded) {
+    student.bloodstatus = "Half";
+  } else if (pureBlooded) {
+    student.bloodstatus = "Pure";
+  } else {
+    student.bloodstatus = "Muggle";
+  }
+
+  console.table(studentArray);
 
   filterList(""); // default unfiltered
 }
 
-//create a filtered array for clicked house
+function findHalfBlood(studentLast) {
+  return familyJSON.half.findIndex(obj => obj == studentLast) > -1;
+}
+
+function findPureBlood(studentLast) {
+  return familyJSON.pure.findIndex(obj => obj == studentLast) > -1;
+}
+
+// -- FILTER create a filtered array for clicked house
 function filterList(query) {
   filteredArray = studentArray.filter(function(student) {
     return student.house.indexOf(query) > -1;
@@ -94,8 +131,8 @@ function filterList(query) {
   sortList(filteredArray);
 }
 
+// -- SORT run function by selected sorting option
 function sortList(filteredStudents) {
-  //run function by selected sorting option
   if (selectSort.value === "firstSort") {
     filteredStudents.sort(sortByFirst);
   } else if (selectSort.value === "firstSortZ") {
@@ -167,9 +204,9 @@ function sortByHouseZ(a, b) {
   }
 }
 
+// -- DISPLAY STUDENTS in list
 let currentArray;
 
-//display students in list
 function displayList(newArray) {
   currentArray = newArray;
 
@@ -199,7 +236,7 @@ function displayList(newArray) {
   });
 }
 
-//show modal when student clicks
+// -- SHOW MODAL when student clicks
 let studentImage;
 
 function showDetails(student) {
@@ -239,12 +276,10 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   document.querySelector("#overlay").classList.add("hide");
 });
 
-//expel student drag & drop
-
+// -- EXPEL student with drag & drop
 let dragged;
 let counter = 0;
 
-/* events fired on the draggable target */
 document.addEventListener("drag", function(event) {});
 
 document.addEventListener("dragstart", function(event) {
@@ -254,33 +289,32 @@ document.addEventListener("dragstart", function(event) {
   dragged.style.opacity = 0.5;
 });
 
+// reset the transparency
 document.addEventListener("dragend", function(event) {
-  // reset the transparency
   event.target.style.opacity = "";
 });
 
-/* events fired on the drop targets */
+// prevent default to allow drop
 document.addEventListener("dragover", function(event) {
-  // prevent default to allow drop
   event.preventDefault();
 });
 
+// highlight potential drop target
 document.addEventListener("dragenter", function(event) {
-  // highlight potential drop target when the draggable element enters it
   if (event.target.className == "dropzone") {
     event.target.style.background = "rgba(236, 52, 52, 0.5)";
   }
 });
 
+// reset background of potential drop target
 document.addEventListener("dragleave", function(event) {
-  // reset background of potential drop target when the draggable element leaves it
   if (event.target.className == "dropzone") {
     event.target.style.background = "";
   }
 });
 
+// prevent default action (open as link for some elements)
 document.addEventListener("drop", function(event) {
-  // prevent default action (open as link for some elements)
   event.preventDefault();
 
   if (event.target.className == "dropzone") {
@@ -295,10 +329,10 @@ document.addEventListener("drop", function(event) {
   }
 });
 
+// add dragged student to expelled array
 let expelledList = [];
 
 function addExpelled(student) {
-  // add dragged student to expelled list
   let indexOfFirst = student.id.indexOf("_");
   let exFirst = student.id.substring(0, indexOfFirst);
   let exLast = student.id.substring(student.id.lastIndexOf("_") + 1);
@@ -311,15 +345,14 @@ function addExpelled(student) {
   removeExpelled(toBeRemoved);
 }
 
+//find expelled student by first name
 function findExpelled(exfirstname) {
-  //find expelled student by first name
-  return currentArray.find(obj => obj.firstname === exfirstname);
+  return currentArray.findIndex(obj => obj.firstname === exfirstname);
 }
 
-function removeExpelled(firstName) {
-  //remove the expelled student from current displayed list
-  let position = currentArray.indexOf(firstName);
-  currentArray.splice(position, 1);
+//remove the expelled student from current displayed list
+function removeExpelled(indexExpelled) {
+  currentArray.splice(indexExpelled, 1);
   document.querySelector("#totalStudents>span").textContent =
     currentArray.length;
 }
