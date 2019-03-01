@@ -8,6 +8,7 @@ let filteredArray;
 const template = document.querySelector("#studentTemplate").content;
 const main = document.querySelector("main");
 const modal = document.querySelector("#modal");
+let label = document.querySelector(".switch");
 
 const allBtn = document.querySelector("#allfilter");
 const gryfBtn = document.querySelector("#gryffindor");
@@ -24,7 +25,7 @@ const Student = {
   image: "--imgsrc--",
   housecrest: "--housecrest--",
   bloodstatus: "--blood--",
-  inquisitorialsquad: "true or false",
+  inquisitorialsquad: false,
   fromJSON(jsonObject) {
     let fullName = jsonObject.fullname.trim();
     let indexOfFirst = fullName.indexOf(" ");
@@ -81,10 +82,21 @@ function prepareObjects() {
     const student = Object.create(Student);
     student.fromJSON(jsonObject);
     fetchFamilyJSON(student);
-
     //store in global array
     studentArray.push(student);
+    createSwitch(student);
   });
+}
+
+let newSwitch;
+let inputSection;
+
+function createSwitch(student) {
+  inputSection = document.querySelector("#inputSection");
+  newSwitch = document.createElement("input");
+  newSwitch.id = `${student.firstname}_${student.house}`;
+  newSwitch.type = "checkbox";
+  inputSection.appendChild(newSwitch);
 }
 
 function fetchFamilyJSON(student) {
@@ -97,11 +109,9 @@ function fetchFamilyJSON(student) {
 }
 
 // add bloodstatus to studentobject
-
 function addBloodStatus(student) {
   let halfBlooded = findHalfBlood(student.lastname);
   let pureBlooded = findPureBlood(student.lastname);
-
   if (halfBlooded) {
     student.bloodstatus = "Half";
   } else if (pureBlooded) {
@@ -207,7 +217,6 @@ let currentArray;
 
 function displayList(newArray) {
   currentArray = newArray;
-  console.table(currentArray);
 
   //show total students in current list
   document.querySelector("#totalStudents>span").textContent =
@@ -237,9 +246,28 @@ function displayList(newArray) {
 
 // -- SHOW MODAL when student clicks
 let studentImage;
+let squadAppointer;
 
 function showDetails(student) {
+  modal.classList.remove("hide");
   document.querySelector("#overlay").classList.remove("hide");
+
+  // append to label class switch insertbefore span
+  const oldInput = modal.querySelector("input");
+  const slider = modal.querySelector(".slider");
+
+  if (oldInput.id == `${student.firstname}_${student.house}`) {
+    //do nothing
+  } else {
+    const newInput = inputSection.querySelector(
+      `#${student.firstname}_${student.house}`
+    );
+    console.log(newInput);
+    label.insertBefore(newInput, slider);
+    inputSection.appendChild(oldInput);
+  }
+
+  //fill info
   modal.querySelector("h2").textContent = student.fullname;
   modal.querySelector("h4.house-name").textContent = `House of ${
     student.house
@@ -249,7 +277,6 @@ function showDetails(student) {
   }`;
 
   studentImage = modal.querySelector("#studentImage");
-
   if (student.lastname == "Finch-Fletchly") {
     studentImage.src = "images/fletchley_j.png";
   } else if (student.firstname == "Padma") {
@@ -264,7 +291,17 @@ function showDetails(student) {
   modal.querySelector("#houseCrest").src = student.housecrest;
   // add relative house styling
   modal.classList.add(`${student.house}style`.toLowerCase());
-  modal.classList.remove("hide");
+
+  //if student is in inquisitorial List then appointer checked = true
+  // squadAppointer = modal.querySelector(".squadAppointer");
+
+  // if (student.inquisitorialsquad) {
+  //   squadAppointer.checked = true;
+  // }
+
+  // squadAppointer.addEventListener("click", function() {
+  //   appointToSquad(student);
+  // });
 }
 
 modal.querySelector("#btnclose").addEventListener("click", function() {
@@ -272,6 +309,12 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   studentImage.classList.remove("hide");
   document.querySelector("#overlay").classList.add("hide");
 });
+
+// function appointToSquad(student) {
+//   if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
+//     return true;
+//   }
+// }
 
 // -- EXPEL student with drag & drop
 let dragged;
