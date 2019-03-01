@@ -4,6 +4,8 @@ let familyJSON;
 
 let studentArray = [];
 let filteredArray;
+let expelledList = [];
+let squadList = [];
 
 const template = document.querySelector("#studentTemplate").content;
 const main = document.querySelector("main");
@@ -15,6 +17,7 @@ const gryfBtn = document.querySelector("#gryffindor");
 const huffBtn = document.querySelector("#hufflepuff");
 const raveBtn = document.querySelector("#ravenclaw");
 const slytBtn = document.querySelector("#slytherin");
+const squadBtn = document.querySelector("#inqsquad");
 const selectSort = document.querySelector("#selectSort");
 
 const Student = {
@@ -58,6 +61,10 @@ function init() {
   });
   slytBtn.addEventListener("click", function() {
     filterList("Slytherin");
+  });
+
+  squadBtn.addEventListener("click", function() {
+    sortList(squadList);
   });
 
   selectSort.addEventListener("input", function() {
@@ -252,17 +259,15 @@ function showDetails(student) {
   modal.classList.remove("hide");
   document.querySelector("#overlay").classList.remove("hide");
 
-  // append to label class switch insertbefore span
+  // show the specific input element of selected student
   const oldInput = modal.querySelector("input");
   const slider = modal.querySelector(".slider");
 
-  if (oldInput.id == `${student.firstname}_${student.house}`) {
-    //do nothing
-  } else {
+  if (oldInput.id !== `${student.firstname}_${student.house}`) {
     const newInput = inputSection.querySelector(
       `#${student.firstname}_${student.house}`
     );
-    console.log(newInput);
+
     label.insertBefore(newInput, slider);
     inputSection.appendChild(oldInput);
   }
@@ -292,16 +297,11 @@ function showDetails(student) {
   // add relative house styling
   modal.classList.add(`${student.house}style`.toLowerCase());
 
-  //if student is in inquisitorial List then appointer checked = true
-  // squadAppointer = modal.querySelector(".squadAppointer");
-
-  // if (student.inquisitorialsquad) {
-  //   squadAppointer.checked = true;
-  // }
-
-  // squadAppointer.addEventListener("click", function() {
-  //   appointToSquad(student);
-  // });
+  // appoint to squad
+  squadAppointer = modal.querySelector("input");
+  squadAppointer.addEventListener("change", function() {
+    appointToSquad(student);
+  });
 }
 
 modal.querySelector("#btnclose").addEventListener("click", function() {
@@ -310,11 +310,29 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   document.querySelector("#overlay").classList.add("hide");
 });
 
-// function appointToSquad(student) {
-//   if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
-//     return true;
-//   }
-// }
+function appointToSquad(student) {
+  if (squadAppointer.checked) {
+    if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
+      student.inquisitorialsquad = true;
+      squadList.push(student);
+    } else {
+      alert("You cannot add this student!");
+      squadAppointer.checked = false;
+    }
+  } else {
+    //remove from list
+    let indexFound = findInSquad(student.firstname);
+    if (indexFound > -1) {
+      squadList.splice(indexFound, 1);
+      sortList(squadList);
+    }
+  }
+  console.log(squadList);
+}
+
+function findInSquad(studentfirst) {
+  return squadList.findIndex(obj => obj.firstname === studentfirst);
+}
 
 // -- EXPEL student with drag & drop
 let dragged;
@@ -370,7 +388,6 @@ document.addEventListener("drop", function(event) {
 });
 
 // add dragged student to expelled array
-let expelledList = [];
 
 function addExpelled(student) {
   let indexOfFirst = student.id.indexOf("_");
@@ -379,7 +396,7 @@ function addExpelled(student) {
   let expelledStudent = `${exFirst} ${exLast}`;
   expelledList.push(expelledStudent);
 
-  console.log(expelledList);
+  console.log("Expelled: " + expelledList);
 
   let toBeRemoved = findExpelled(exFirst);
   removeExpelled(toBeRemoved);
