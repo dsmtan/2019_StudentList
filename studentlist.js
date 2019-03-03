@@ -40,7 +40,19 @@ const Student = {
       0
     )}.png`.toLowerCase();
     this.housecrest = `images/${jsonObject.house}.png`.toLowerCase();
+    this.inquisitorialsquad = false;
   }
+};
+
+const denise = {
+  fullname: "Denise Sien Mei Tan",
+  firstname: "Denise",
+  lastname: "Tan",
+  house: "Slytherin",
+  image: "images/tan_d.png",
+  housecrest: "images/slytherin.png",
+  bloodstatus: "Half",
+  inquisitorialsquad: false
 };
 
 window.addEventListener("DOMContentLoaded", init);
@@ -74,6 +86,7 @@ function init() {
   loadJSON();
 }
 
+//fetch students from json link
 function loadJSON() {
   fetch("https://petlatkea.dk/2019/hogwarts/students.json")
     .then(res => res.json())
@@ -84,28 +97,33 @@ function loadJSON() {
 }
 
 function prepareObjects() {
+  let student;
   studentJSON.forEach(jsonObject => {
     //create new object
-    const student = Object.create(Student);
+    student = Object.create(Student);
     student.fromJSON(jsonObject);
     fetchFamilyJSON(student);
     //store in global array
     studentArray.push(student);
-    createSwitch(student);
   });
+  studentArray.push(denise);
+  createSwitch();
 }
 
 let newSwitch;
 let inputSection;
 
-function createSwitch(student) {
-  inputSection = document.querySelector("#inputSection");
-  newSwitch = document.createElement("input");
-  newSwitch.id = `${student.firstname}_${student.house}`;
-  newSwitch.type = "checkbox";
-  inputSection.appendChild(newSwitch);
+function createSwitch() {
+  studentArray.forEach(student => {
+    inputSection = document.querySelector("#inputSection");
+    newSwitch = document.createElement("input");
+    newSwitch.id = `${student.firstname}_${student.house}`;
+    newSwitch.type = "checkbox";
+    inputSection.appendChild(newSwitch);
+  });
 }
 
+//fetch link with family names blood status
 function fetchFamilyJSON(student) {
   fetch("http://petlatkea.dk/2019/hogwarts/families.json")
     .then(res => res.json())
@@ -324,7 +342,6 @@ function appointToSquad(student) {
     let indexFound = findInSquad(student.firstname);
     if (indexFound > -1) {
       squadList.splice(indexFound, 1);
-      sortList(squadList);
     }
   }
   console.log(squadList);
@@ -377,14 +394,23 @@ document.addEventListener("drop", function(event) {
 
   if (event.target.className == "dropzone") {
     event.target.style.background = "";
-    counter++;
-    document.querySelector("#expelled span").textContent = counter;
+    if (dragged.id == "Denise_Tan") {
+      document.querySelector("#expeldenise").classList.remove("hide");
+    } else {
+      counter++;
+      document.querySelector("#expelled span").textContent = counter;
 
-    dragged.parentNode.removeChild(dragged);
-    dragged.style.left = event.target.style.left;
-    dragged.style.top = event.target.style.top;
-    addExpelled(dragged);
+      dragged.parentNode.removeChild(dragged);
+      event.target.appendChild(dragged);
+      dragged.style.left = event.target.style.left;
+      dragged.style.top = event.target.style.top;
+      addExpelled(dragged);
+    }
   }
+});
+
+document.querySelector("button#yes").addEventListener("click", function() {
+  document.querySelector("#expeldenise").classList.add("hide");
 });
 
 // add dragged student to expelled array
@@ -396,7 +422,7 @@ function addExpelled(student) {
   let expelledStudent = `${exFirst} ${exLast}`;
   expelledList.push(expelledStudent);
 
-  console.log("Expelled: " + expelledList);
+  console.log(expelledList);
 
   let toBeRemoved = findExpelled(exFirst);
   removeExpelled(toBeRemoved);

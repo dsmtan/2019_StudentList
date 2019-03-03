@@ -110,16 +110,18 @@ main {
 #expelled {
   margin: 1.5em auto;
   padding: 0 1em;
+  padding-top: 100px;
   min-width: 65%;
-  height: 140px;
+  min-height: 200px;
   border-radius: 3px;
   position: relative;
+  margin-bottom: auto;
 }
 
 #expelBG {
   position: absolute;
   font-size: 1em;
-  background-image: linear-gradient(#be2323 50%, #d1282841);
+  background-image: linear-gradient(#be2323 20%, #d128281f);
   color: #121134;
   border-radius: 3px;
   top: 0;
@@ -301,4 +303,39 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* pop up expelling denise */
+
+#expeldenise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 12;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.8);
+}
+
+#expeldenise > img {
+  margin: 0 auto;
+  margin-top: 30vh;
+  display: block;
+}
+
+#expeldenise > button {
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  margin: 15px 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button#yes {
+  width: 250px;
+  background-color: rgb(47, 255, 127);
 }
