@@ -127,7 +127,7 @@ function createSwitch() {
 
 //fetch link with family names blood status
 function fetchFamilyJSON(student) {
-  fetch("http://petlatkea.dk/2019/hogwarts/families.json")
+  fetch("https://petlatkea.dk/2019/hogwarts/families.json")
     .then(res => res.json())
     .then(famJSON => {
       familyJSON = famJSON;
