@@ -2,15 +2,17 @@
 let studentJSON;
 let familyJSON;
 
+//all declared arrays
 let studentArray = [];
 let filteredArray;
+let currentArray;
 let expelledList = [];
 let squadList = [];
 
 const template = document.querySelector("#studentTemplate").content;
 const main = document.querySelector("main");
 const modal = document.querySelector("#modal");
-let label = document.querySelector(".switch");
+const label = document.querySelector(".switch");
 
 const allBtn = document.querySelector("#allfilter");
 const gryfBtn = document.querySelector("#gryffindor");
@@ -133,16 +135,21 @@ function fetchFamilyJSON(student) {
     });
 }
 
-// add bloodstatus to studentobject
+// -- add BLOOD STATUS to studentobject
 function addBloodStatus(student) {
   let halfBlooded = findHalfBlood(student.lastname);
   let pureBlooded = findPureBlood(student.lastname);
+
+  //HACKED blood status
+  let hackedPure = ["Half", "Muggle"];
+
   if (halfBlooded) {
-    student.bloodstatus = "Half";
-  } else if (pureBlooded) {
     student.bloodstatus = "Pure";
+  } else if (pureBlooded) {
+    student.bloodstatus =
+      hackedPure[Math.floor(Math.random() * hackedPure.length)];
   } else {
-    student.bloodstatus = "Muggle";
+    student.bloodstatus = "Pure";
   }
 
   filterList(""); // default unfiltered
@@ -238,7 +245,6 @@ function sortByHouseZ(a, b) {
 }
 
 // -- DISPLAY STUDENTS in list
-let currentArray;
 
 function displayList(newArray) {
   currentArray = newArray;
@@ -328,11 +334,15 @@ modal.querySelector("#btnclose").addEventListener("click", function() {
   document.querySelector("#overlay").classList.add("hide");
 });
 
+// -- APPOINT TO SQUAD
+
 function appointToSquad(student) {
   if (squadAppointer.checked) {
     if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
       student.inquisitorialsquad = true;
       squadList.push(student);
+      //HACKED add random timer to squad status
+      setTimeout(squadAutoRemove, Math.random() * 30000, student);
     } else {
       alert("You cannot add this student!");
       squadAppointer.checked = false;
@@ -345,6 +355,19 @@ function appointToSquad(student) {
     }
   }
   console.log(squadList);
+}
+
+//HACKED auto remove student from squad
+function squadAutoRemove(student) {
+  document.querySelector(
+    `#${student.firstname}_${student.house}`
+  ).checked = false;
+
+  let indexFound = findInSquad(student.firstname);
+  if (indexFound > -1) {
+    squadList.splice(indexFound, 1);
+    console.log(squadList);
+  }
 }
 
 function findInSquad(studentfirst) {
@@ -409,10 +432,6 @@ document.addEventListener("drop", function(event) {
   }
 });
 
-document.querySelector("button#yes").addEventListener("click", function() {
-  document.querySelector("#expeldenise").classList.add("hide");
-});
-
 // add dragged student to expelled array
 
 function addExpelled(student) {
@@ -439,3 +458,8 @@ function removeExpelled(indexExpelled) {
   document.querySelector("#totalStudents>span").textContent =
     currentArray.length;
 }
+
+//close overlay expeldenise
+document.querySelector("button#yes").addEventListener("click", function() {
+  document.querySelector("#expeldenise").classList.add("hide");
+});
